@@ -1,15 +1,15 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.1.61'
+		kotlinVersion = '1.2.10'
 		springBootVersion = '1.5.9.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+        jcenter()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
 
@@ -18,23 +18,17 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-compileKotlin {
-	kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+jar {
+    baseName = 'gs-rest-service'
+    version = '0.1.0'
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 }
 
-
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
 	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 	testCompile('org.springframework.boot:spring-boot-starter-test')

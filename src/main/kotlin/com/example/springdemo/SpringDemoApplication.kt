@@ -14,6 +14,7 @@ class SpringDemoApplication {
         return object : WebMvcConfigurerAdapter() {
             override fun addCorsMappings(registry: CorsRegistry?) {
                 registry!!.addMapping("/**")
+                        .allowedMethods("PUT", "DELETE", "POST", "GET")
             }
         }
     }

@@ -1,50 +1,27 @@
 package com.example.springdemo.greeting
 
-import com.example.springdemo.commons.exception.NotFoundException
 import org.springframework.web.bind.annotation.*
-import java.util.concurrent.atomic.AtomicLong
 
 @RequestMapping("/greetings")
 @RestController
 class GreetingController {
-    val greetings = mutableListOf<Greeting>()
-    val counter = AtomicLong()
+    private val service = GreetingService()
 
     @PostMapping
-    fun create(@RequestBody greeting: Greeting): Greeting {
-        greeting.id = counter.incrementAndGet()
-        greetings.add(greeting)
-        return greeting
-    }
+    fun create(@RequestBody greeting: Greeting): Greeting = service.create(greeting)
 
     @GetMapping("/{id}")
-    fun find(@PathVariable("id") id: Long): Greeting {
-        return greetings.find { it.id == id } ?:
-                throw NotFoundException("Greeting not found")
-    }
+    fun find(@PathVariable("id") id: Long): Greeting = service.find(id)
 
     @GetMapping
-    fun list(): List<Greeting> {
-        return greetings
-    }
+    fun list(): List<Greeting> = service.list()
 
     @PutMapping("/{id}")
     fun update(
             @PathVariable("id") id: Long,
             @RequestBody updatedGreeting: Greeting
-    ): Greeting {
-        val greeting = greetings.find { it.id == id } ?:
-                throw NotFoundException("Greeting not found")
-        val index = greetings.indexOf(greeting)
-        updatedGreeting.id = greeting.id
-        greetings[index] = updatedGreeting
-        return updatedGreeting
-    }
+    ): Greeting = service.update(id, updatedGreeting)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id") id: Long) {
-        val greeting = greetings.find { it.id == id } ?:
-                throw NotFoundException("Greeting not found")
-        greetings.remove(greeting)
-    }
+    fun delete(@PathVariable("id") id: Long) = service.delete(id)
 }
